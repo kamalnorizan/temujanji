@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('counseling_rooms', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('name');
             $table->string('location')->nullable();
             $table->boolean('is_active')->default(true);

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointment_timelines', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->foreignId('appointment_id')->constrained('appointments')->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('title');
