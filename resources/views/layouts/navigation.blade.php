@@ -1,4 +1,4 @@
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<nav class="app-header navbar navbar-expand bg-body">
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
@@ -33,26 +33,24 @@
     </ul>
 </nav>
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="{{ route('dashboard') }}" class="brand-link text-decoration-none">
-        <i class="fas fa-calendar-check brand-image img-circle elevation-3" style="opacity: .8"></i>
-        <span class="brand-text fw-light">{{ config('app.name', 'Temujanji') }}</span>
-    </a>
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+    <div class="sidebar-brand">
+        <a href="{{ route('dashboard') }}" class="brand-link text-decoration-none">
+            <i class="fas fa-calendar-check brand-image img-circle elevation-3" style="opacity: .8"></i>
+            <span class="brand-text fw-light">{{ config('app.name', 'Temujanji') }}</span>
+        </a>
+    </div>
 
-    <div class="sidebar">
-        <div class="form-inline mt-2">
-            <div class="input-group" data-widget="sidebar-search">
+    <div class="sidebar-wrapper">
+        <nav class="mt-2">
+            <div class="input-group mb-3" data-lte-toggle="sidebar-search">
                 <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar" type="button">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
+                <button class="btn btn-sidebar" type="button">
+                    <i class="fas fa-search fa-fw"></i>
+                </button>
             </div>
-        </div>
 
-        <nav class="mt-3">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-gauge"></i>

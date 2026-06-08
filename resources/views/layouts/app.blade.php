@@ -10,13 +10,13 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="hold-transition sidebar-mini layout-fixed">
-        <div class="wrapper">
+    <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+        <div class="app-wrapper">
             @include('layouts.navigation')
 
-            <div class="content-wrapper">
+            <main class="app-main">
                 @hasSection('header')
-                    <section class="content-header">
+                    <div class="app-content-header">
                         <div class="container-fluid">
                             <div class="row mb-2">
                                 <div class="col-sm-12">
@@ -24,17 +24,17 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </div>
                 @endif
 
-                <section class="content">
+                <div class="app-content">
                     <div class="container-fluid py-2">
                         @yield('content')
                     </div>
-                </section>
-            </div>
+                </div>
+            </main>
 
-            <footer class="main-footer">
+            <footer class="app-footer">
                 <strong>{{ config('app.name', 'Temujanji') }}</strong>
                 <div class="float-right d-none d-sm-inline-block">
                     <b>Version</b> 1.0.0
