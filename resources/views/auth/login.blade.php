@@ -1,32 +1,33 @@
-<x-guest-layout>
+@extends('layouts.guest')
+
+@section('content')
     <p class="login-box-msg">Log masuk untuk teruskan ke sistem.</p>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    @if (session('status'))
+        <div class="alert alert-success py-2 mb-4">
+            {{ session('status') }}
+        </div>
+    @endif
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- Email Address -->
         <div class="mb-3">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-1" />
+            <label for="email" class="form-label">{{ __('Email') }}</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control" required autofocus autocomplete="username">
+            @error('email')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
         </div>
 
-        <!-- Password -->
         <div class="mb-3">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-1" />
+            <label for="password" class="form-label">{{ __('Password') }}</label>
+            <input id="password" type="password" name="password" class="form-control" required autocomplete="current-password">
+            @error('password')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
         </div>
 
-        <!-- Remember Me -->
         <div class="mb-3">
             <label for="remember_me" class="form-check">
                 <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
@@ -41,9 +42,7 @@
                 </a>
             @endif
 
-            <x-primary-button>
-                {{ __('Log in') }}
-            </x-primary-button>
+            <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
         </div>
     </form>
-</x-guest-layout>
+@endsection

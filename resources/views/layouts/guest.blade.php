@@ -20,7 +20,7 @@
 
             <div class="card card-outline card-primary shadow">
                 <div class="card-body login-card-body">
-                {{ $slot }}
+                    @yield('content')
                 </div>
             </div>
         </div>

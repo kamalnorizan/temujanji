@@ -18,15 +18,19 @@
         @method('patch')
 
         <div class="mb-3">
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-1" :messages="$errors->get('name')" />
+            <label for="name" class="form-label">{{ __('Name') }}</label>
+            <input id="name" name="name" type="text" value="{{ old('name', $user->name) }}" class="form-control" required autofocus autocomplete="name">
+            @error('name')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="mb-3">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-1" :messages="$errors->get('email')" />
+            <label for="email" class="form-label">{{ __('Email') }}</label>
+            <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" class="form-control" required autocomplete="username">
+            @error('email')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
@@ -48,16 +52,10 @@
         </div>
 
         <div class="d-flex align-items-center gap-2">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
 
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-muted small mb-0"
-                >{{ __('Saved.') }}</p>
+                <span class="text-success small">{{ __('Saved.') }}</span>
             @endif
         </div>
     </form>

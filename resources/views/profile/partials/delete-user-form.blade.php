@@ -9,9 +9,9 @@
         </p>
     </header>
 
-    <x-danger-button type="button" data-bs-toggle="modal" data-bs-target="#confirm-user-deletion">
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm-user-deletion">
         {{ __('Delete Account') }}
-    </x-danger-button>
+    </button>
 
     <div class="modal fade" id="confirm-user-deletion" tabindex="-1" aria-labelledby="confirm-user-deletion-label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -31,27 +31,24 @@
                         </p>
 
                         <div class="mb-2">
-                            <x-input-label for="password" value="{{ __('Password') }}" />
-
-                            <x-text-input
+                            <label for="password" class="form-label">{{ __('Password') }}</label>
+                            <input
                                 id="password"
                                 name="password"
                                 type="password"
+                                class="form-control"
                                 placeholder="{{ __('Password') }}"
-                            />
-
-                            <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-1" />
+                            >
+                            @error('password', 'userDeletion')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <x-secondary-button type="button" data-bs-dismiss="modal">
-                            {{ __('Cancel') }}
-                        </x-secondary-button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
 
-                        <x-danger-button>
-                            {{ __('Delete Account') }}
-                        </x-danger-button>
+                        <button type="submit" class="btn btn-danger">{{ __('Delete Account') }}</button>
                     </div>
                 </form>
             </div>

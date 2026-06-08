@@ -1,1 +1,3 @@
-// Reserved for shared frontend bootstrap logic.
+import * as bootstrap from 'bootstrap';
+
+window.bootstrap = bootstrap;

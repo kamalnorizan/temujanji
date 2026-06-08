@@ -15,21 +15,21 @@
             @include('layouts.navigation')
 
             <div class="content-wrapper">
-                @isset($header)
+                @hasSection('header')
                     <section class="content-header">
                         <div class="container-fluid">
                             <div class="row mb-2">
                                 <div class="col-sm-12">
-                                    {{ $header }}
+                                    @yield('header')
                                 </div>
                             </div>
                         </div>
                     </section>
-                @endisset
+                @endif
 
                 <section class="content">
                     <div class="container-fluid py-2">
-                        {{ $slot }}
+                        @yield('content')
                     </div>
                 </section>
             </div>

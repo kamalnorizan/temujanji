@@ -1,8 +1,10 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h1 class="m-0">Profile</h1>
-    </x-slot>
+@extends('layouts.app')
 
+@section('header')
+        <h1 class="m-0">Profile</h1>
+@endsection
+
+@section('content')
     <div class="row">
         <div class="col-12">
             <div class="card card-outline card-primary">
@@ -28,4 +30,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection
