@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Jobs\AppointmentNotificationJob;
 use App\Models\Appointment;
+use App\Notifications\AppointmentCreatedNotification;
 use App\Services\UstazaiWhatsappService;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
@@ -42,7 +43,9 @@ class AppointmentController extends Controller
         $appointment->status = 'pending';
         $appointment->save();
 
-        AppointmentNotificationJob::dispatch($appointment)->delay(now()->addSecond());
+        // AppointmentNotificationJob::dispatch($appointment)->delay(now()->addSecond());
+
+        $appointment->notify(new AppointmentCreatedNotification($appointment));
 
         return redirect()->route('appointments.index')->with('success', 'Temujanji berjaya dibuat!');
     }
