@@ -32,4 +32,17 @@ class UstazaiWhatsappService
         return $response;
     }
 
+
+    public function sendMessageViaHttp($phone, $message){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->post('https://ustazai.my/send-message', [
+            'form_params' => [
+                'api_key' => env('USTAZAI_API_KEY'),
+                'sender' => env('USTAZAI_PHONE_NUMBER'),
+                'number' => $phone,
+                'message' => $message,
+            ]
+        ]);
+        return $response->getBody()->getContents();
+    }
 }
