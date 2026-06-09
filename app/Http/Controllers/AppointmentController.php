@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Uuid;
 
 class AppointmentController extends Controller
 {
@@ -21,5 +23,23 @@ class AppointmentController extends Controller
     public function create()
     {
         return view('appointments.create');
+    }
+
+    public function store(StoreAppointmentRequest $request)
+    {
+        $appointment = new Appointment();
+        $appointment->uuid = Uuid::uuid4()->toString();
+        $appointment->user_id = auth()->id();
+        $currAppointmentCount = Appointment::count();
+        $appointment->appointment_no = 'APPT-' . date('Ymd') . '-' . str_pad($currAppointmentCount + 1, 4, '0', STR_PAD_LEFT);
+        $user = auth()->user();
+        $appointment->name = $user->name;
+        $appointment->email = $user->email;
+        $appointment->phone = $user->phone;
+        $appointment->purpose = $request->input('purpose');
+        $appointment->status = 'pending';
+        $appointment->save();
+
+        return redirect()->route('appointments.index')->with('success', 'Temujanji berjaya dibuat!');
     }
 }
