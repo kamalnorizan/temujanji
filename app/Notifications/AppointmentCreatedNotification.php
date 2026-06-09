@@ -8,9 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AppointmentCreatedNotification extends Notification
+class AppointmentCreatedNotification extends Notification implements ShouldQueue
 {
-    // use Queueable;
+    use Queueable;
     public int $tries = 3;
     public int $timeout = 120;
 
