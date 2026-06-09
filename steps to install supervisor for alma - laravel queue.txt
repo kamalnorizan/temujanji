@@ -1,0 +1,22 @@
+1) sudo dnf install -y supervisor
+2) sudo nano /etc/supervisord.d/temujanji-worker.ini
+3) 
+
+[program:temujanji-worker]
+process_name=%(program_name)s_%(process_num)02d
+directory=/var/www/your-project
+command=/usr/bin/php artisan queue:work database --queue=notifications,default --sleep=3 --tries=3 --timeout=120 --memory=256
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=apache
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/var/www/your-project/storage/logs/worker.log
+stopwaitsecs=3600
+
+4) sudo supervisorctl reread
+5) sudo supervisorctl update
+6) sudo supervisorctl start temujanji-worker:*
+7) sudo supervisorctl status
