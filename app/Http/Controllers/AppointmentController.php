@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
+use App\Services\UstazaiWhatsappService;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
@@ -39,6 +40,11 @@ class AppointmentController extends Controller
         $appointment->purpose = $request->input('purpose');
         $appointment->status = 'pending';
         $appointment->save();
+
+        $message = "Salam, ".$appointment->name."!\r\n\r\n Temujanji baru telah dibuat dengan nombor: {$appointment->appointment_no} untuk tujuan: {$appointment->purpose}. Anda akan menerima maklumbalas tarikh dan masa temujanji melalui WhatsApp.\r\n\r\nTerima kasih!";
+
+        $whatsappService = new UstazaiWhatsappService();
+        $whatsappService->sendMessage($appointment->phone, $message);
 
         return redirect()->route('appointments.index')->with('success', 'Temujanji berjaya dibuat!');
     }
