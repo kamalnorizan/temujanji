@@ -44,7 +44,7 @@ class AppointmentController extends Controller
         $message = "Salam, ".$appointment->name."!\r\n\r\n Temujanji baru telah dibuat dengan nombor: {$appointment->appointment_no} untuk tujuan: {$appointment->purpose}. Anda akan menerima maklumbalas tarikh dan masa temujanji melalui WhatsApp.\r\n\r\nTerima kasih!";
 
         $whatsappService = new UstazaiWhatsappService();
-        $whatsappService->sendMessage($appointment->phone, $message);
+        $whatsappService->sendMessageViaHttp($appointment->phone, $message);
 
         return redirect()->route('appointments.index')->with('success', 'Temujanji berjaya dibuat!');
     }
