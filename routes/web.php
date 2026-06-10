@@ -25,6 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/appointments/calendar', [AppointmentController::class, 'calendar'])->name('appointments.calendar');
 
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('/appointments/availableTimeCheck', [AppointmentController::class, 'availableTimeCheck'])->name('appointments.availableTimeCheck');
+    Route::post('/appointments/{id}', [AppointmentController::class, 'show'])->name('appointments.show');
+    Route::patch('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update');
+
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 });
 
