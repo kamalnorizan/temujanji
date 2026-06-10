@@ -10,6 +10,7 @@ use App\Models\CounselingRoom;
 use App\Notifications\AppointmentCreatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Ramsey\Uuid\Uuid;
 
 class AppointmentController extends Controller
@@ -22,6 +23,10 @@ class AppointmentController extends Controller
         } else {
             $appointments = $user->appointments;
         }
+
+        Cache::remember('appointments', now()->addMinutes(10), function () {
+            return Appointment::all();
+        });
 
         return view('appointments.index', compact('appointments'));
     }
@@ -127,6 +132,13 @@ class AppointmentController extends Controller
 
     public function calendar()
     {
+        $appointments = Cache::get('appointments', function () {
+            $appointments = Appointment::all()->toArray();
+            Cache::put('appointments', $appointments, now()->addDay());
+            return $appointments;
+        });
+
+        dd($appointments);
         $pendingAppointments = Appointment::where('status', 'pending')->get();
         $calendarEvents = Appointment::query()
             ->where('status', 'scheduled')
