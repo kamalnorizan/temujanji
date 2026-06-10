@@ -49,4 +49,10 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index')->with('success', 'Temujanji berjaya dibuat!');
     }
+
+    public function calendar()
+    {
+        $pendingAppointments = Appointment::where('status', 'pending')->get();
+        return view('appointments.calendar', compact('pendingAppointments'));
+    }
 }

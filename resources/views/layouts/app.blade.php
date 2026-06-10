@@ -7,8 +7,7 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite('resources/css/app.css')
     </head>
     <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
         <div class="app-wrapper">
@@ -41,5 +40,7 @@
                 </div>
             </footer>
         </div>
+        @vite('resources/js/app.js')
+        @stack('scripts')
     </body>
 </html>
