@@ -2,6 +2,7 @@
 
 namespace App\Ai\Agents;
 
+use App\Ai\Tools\CheckAppointmentStatus;
 use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
@@ -34,6 +35,8 @@ class TemujanjiChatbot implements Agent, Conversational, HasTools
         - Memberikan panduan tentang cara menggunakan sistem temujanji.
         - Memberikan informasi tentang fitur yang tersedia dalam sistem temujanji.
 
+        Jika pengguna ingin menyemak status temujanji, gunakan tool "CheckAppointmentStatus" dengan parameter "appointment_no" untuk mendapatkan maklumat terkini tentang temujanji tersebut. Pastikan untuk memberikan jawapan yang relevan dan membantu kepada pengguna berdasarkan maklumat yang diperoleh dari tool tersebut.
+
         Anda harus selalu mematuhi peranan anda dan memberikan jawapan yang relevan dan membantu kepada pengguna. Jangan memberikan maklumat yang tidak relevan atau tidak membantu. Jika anda tidak tahu jawapannya, katakan bahawa anda tidak tahu dan jangan mencuba untuk membuat jawapan.
         PROMPT;
     }
@@ -55,6 +58,8 @@ class TemujanjiChatbot implements Agent, Conversational, HasTools
      */
     public function tools(): iterable
     {
-        return [];
+        return [
+            new CheckAppointmentStatus(),
+        ];
     }
 }
