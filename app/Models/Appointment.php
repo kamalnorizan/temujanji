@@ -8,7 +8,26 @@ use Illuminate\Notifications\Notifiable;
 class Appointment extends Model
 {
     use Notifiable;
-    protected $guarded = ['id'];
+
+    protected $fillable = [
+        'uuid',
+        'user_id',
+        'officer_id',
+        'counseling_room_id',
+        'appointment_no',
+        'name',
+        'phone',
+        'email',
+        'purpose',
+        'notes',
+        'scheduled_date',
+        'start_time',
+        'end_time',
+        'status',
+        'rejection_reason',
+        'reschedule_reason',
+        'completed_at',
+    ];
 
     public function user()
     {
