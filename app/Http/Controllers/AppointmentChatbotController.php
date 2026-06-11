@@ -19,7 +19,8 @@ class AppointmentChatbotController extends Controller
         ]);
 
       try {
-            $response = (new TemujanjiChatbot())->forUser(Auth::user())->prompt($validated['message']);
+            $response = (new TemujanjiChatbot())->forUser(Auth::user())
+                        ->prompt($validated['message'], provider: 'openai', model : config('ai.models.text'));
 
             return response()->json(['success' => true, 'response' => $response]);
         } catch (Throwable $e) {
