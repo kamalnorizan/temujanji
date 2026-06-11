@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentChatbotController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,12 +20,16 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
     Route::get('/appointments/calendar', [AppointmentController::class, 'calendar'])->name('appointments.calendar');
 
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::get('/appointments/chatbot', [AppointmentChatbotController::class, 'index'])->name('appointments.chatbot');
+    Route::post('/appointments/chatbot/sendMessage', [AppointmentChatbotController::class, 'sendMessage'])->name('appointments.chatbot.sendMessage');
+
+
     Route::post('/appointments/availableTimeCheck', [AppointmentController::class, 'availableTimeCheck'])->name('appointments.availableTimeCheck');
     Route::post('/appointments/{id}', [AppointmentController::class, 'show'])->name('appointments.show');
     Route::patch('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update');
