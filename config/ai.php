@@ -38,6 +38,13 @@ return [
         ],
     ],
 
+    'models' => [
+        'text' => env('AI_TEXT_MODEL', 'gpt-4o-mini'),
+        'image' => env('AI_IMAGE_MODEL', 'gpt-image-1'),
+        'audio' => env('AI_AUDIO_MODEL', 'gpt-audio-1'),
+        'embedding' => env('AI_EMBEDDING_MODEL', 'text-embedding-3-small'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | AI Providers
@@ -124,7 +131,6 @@ return [
             'key' => env('OPENAI_API_KEY'),
             'url' => env('OPENAI_URL', 'https://api.openai.com/v1'),
             'store' => env('OPENAI_STORE', true),
-            'embedding_model' => env('OPENAI_EMBEDDING_MODEL', 'text-embedding-3-small'),
         ],
 
         'openrouter' => [
