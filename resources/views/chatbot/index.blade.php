@@ -71,10 +71,12 @@
         .then(response => response.json())
         .then(response => {
             if (response.success) {
+                var responsetext = response.response;
+
                 const botMessage = document.createElement('div');
                 botMessage.style.alignSelf = 'flex-start';
                 botMessage.classList.add('mb-2', 'text-left', 'float-start', 'clear-both');
-                    botMessage.innerHTML = `<span class="badge bg-secondary"> ${response.response}</span>`;
+                    botMessage.innerHTML = `<span class="badge bg-secondary"> ${responsetext.message.content}</span>`;
                     chatContainer.appendChild(botMessage);
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
