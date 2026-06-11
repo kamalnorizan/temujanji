@@ -76,7 +76,7 @@
                 const botMessage = document.createElement('div');
                 botMessage.style.alignSelf = 'flex-start';
                 botMessage.classList.add('mb-2', 'text-left', 'float-start', 'clear-both');
-                    botMessage.innerHTML = `<span class="badge bg-secondary"> ${responsetext.text}</span>`;
+                    botMessage.innerHTML = `<span class="badge bg-secondary d-inline-block text-start" style="max-width: 100%; white-space: normal; word-break: break-word;"> ${responsetext.text}</span>`;
                     chatContainer.appendChild(botMessage);
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
