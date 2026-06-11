@@ -18,8 +18,8 @@ class UstazaiWhatsappService
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => http_build_query([
-                'api_key' => env('USTAZAI_API_KEY'),
-                'sender' => env('USTAZAI_PHONE_NUMBER'),
+                'api_key' => config('services.ustazai.api_key'),
+                'sender' => config('services.ustazai.phone_number'),
                 'number' => $phone,
                 'message' => $message,
             ]),
@@ -37,8 +37,8 @@ class UstazaiWhatsappService
         $client = new \GuzzleHttp\Client();
         $response = $client->post('https://ustazai.my/send-message', [
             'form_params' => [
-                'api_key' => env('USTAZAI_API_KEY'),
-                'sender' => env('USTAZAI_PHONE_NUMBER'),
+                'api_key' => config('services.ustazai.api_key'),
+                'sender' => config('services.ustazai.phone_number'),
                 'number' => $phone,
                 'message' => $message,
             ]

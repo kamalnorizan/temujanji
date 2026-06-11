@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'ustazai' => [
+        'api_key' => env('USTAZAI_API_KEY'),
+        'phone_number' => env('USTAZAI_PHONE_NUMBER'),
+    ],
+
 ];
