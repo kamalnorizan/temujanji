@@ -8,6 +8,7 @@ use App\Jobs\AppointmentNotificationJob;
 use App\Models\Appointment;
 use App\Models\CounselingRoom;
 use App\Notifications\AppointmentCreatedNotification;
+use App\Services\AppointmentTimelineService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -15,6 +16,13 @@ use Ramsey\Uuid\Uuid;
 
 class AppointmentController extends Controller
 {
+    protected AppointmentTimelineService $timelineService;
+
+    public function __construct(AppointmentTimelineService $timelineService)
+    {
+        $this->timelineService = $timelineService;
+    }
+
     public function index()
     {
         $user = auth()->user();
@@ -51,6 +59,8 @@ class AppointmentController extends Controller
         $appointment->status = 'pending';
         $appointment->save();
 
+        $this->timelineService->create($appointment, 'Appointment Created', 'Appointment has been created', 'pending');
+
         // AppointmentNotificationJob::dispatch($appointment)->delay(now()->addSecond());
 
         $appointment->notify(new AppointmentCreatedNotification($appointment));
@@ -77,6 +87,8 @@ class AppointmentController extends Controller
         $appointment->status = 'scheduled';
         $appointment->officer_id = auth()->id();
         $appointment->save();
+
+        $this->timelineService->create($appointment, 'Appointment Scheduled', 'Appointment has been scheduled', 'scheduled');
 
         if ($request->ajax()) {
             return response()->json([
@@ -138,7 +150,6 @@ class AppointmentController extends Controller
             return $appointments;
         });
 
-        dd($appointments);
         $pendingAppointments = Appointment::where('status', 'pending')->get();
         $calendarEvents = Appointment::query()
             ->where('status', 'scheduled')
