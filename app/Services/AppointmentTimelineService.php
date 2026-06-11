@@ -14,6 +14,7 @@ class AppointmentTimelineService
         }
 
         $timeline = new AppointmentTimeline();
+        $timeline->uuid = \Illuminate\Support\Str::uuid()->toString();
         $timeline->appointment_id = $appointment->id;
         $timeline->title = $title;
         $timeline->description = $description;

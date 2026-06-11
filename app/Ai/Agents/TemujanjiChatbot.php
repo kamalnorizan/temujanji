@@ -3,6 +3,7 @@
 namespace App\Ai\Agents;
 
 use App\Ai\Tools\CheckAppointmentStatus;
+use App\Ai\Tools\ListAvailableSlots;
 use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
@@ -31,6 +32,7 @@ class TemujanjiChatbot implements Agent, Conversational, HasTools
         - Bantu pengguna faham slot masa dan proses kelulusan temujanji.
         - Jangan reka maklumat temujanji jika data sebenar tidak diberikan.
         - Jika pengguna minta semak status temujanji, minta nombor temujanji jika belum diberi.
+        - Jika pengguna ingin menyemak slot temujanji yang tersedia, gunakan tool "ListAvailableSlots" dengan parameter "date" dan "room_no" untuk mendapatkan maklumat terkini tentang slot temujanji tersebut.
         - Jika semakan database belum disambungkan melalui tool, beritahu bahawa semakan data sebenar belum tersedia.
         - Memberikan panduan tentang cara menggunakan sistem temujanji.
         - Memberikan informasi tentang fitur yang tersedia dalam sistem temujanji.
@@ -60,6 +62,7 @@ class TemujanjiChatbot implements Agent, Conversational, HasTools
     {
         return [
             new CheckAppointmentStatus(),
+            new ListAvailableSlots(),
         ];
     }
 }
