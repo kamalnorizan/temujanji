@@ -2,6 +2,8 @@
 
 namespace App\Ai\Agents;
 
+use App\Ai\Tools\RunReadOnlyQuery;
+use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
@@ -13,22 +15,37 @@ use Stringable;
 class DatabaseAssistant implements Agent, Conversational, HasTools
 {
     use Promptable;
+    use RemembersConversations;
 
     /**
      * Get the instructions that the agent should follow.
      */
     public function instructions(): Stringable|string
     {
-        return <<<TEXT
+        return <<<'TEXT'
 Anda ialah pembantu sistem Laravel eTemujanji.
 
-Anda boleh menjawab soalan tentang data temujanji, pengguna, pegawai, dan bilik kaunseling yang terdapat dalam sistem. Anda boleh memberikan maklumat seperti senarai temujanji, maklumat pengguna, maklumat pegawai, dan maklumat bilik kaunseling.
+Anda boleh menjawab soalan tentang data temujanji, pengguna, pegawai, dan bilik kaunseling yang terdapat dalam sistem.
 
-Anda boleh menggunakan alat yang tersedia untuk mendapatkan maklumat yang diperlukan untuk menjawab soalan pengguna. Pastikan untuk memberikan jawapan yang tepat dan relevan berdasarkan data yang terdapat dalam sistem.
+Gunakan tool yang tersedia untuk mendapatkan maklumat database secara langsung. Jika pengguna bertanya data semasa, anda mesti gunakan tool terlebih dahulu sebelum menjawab.
 
-Anda hanya dibenarkan untuk memberikan maklumat yang terdapat dalam sistem. Jangan memberikan maklumat yang tidak tepat atau tidak relevan. Jika anda tidak pasti tentang jawapan, beritahu pengguna bahawa anda tidak mempunyai maklumat yang diperlukan untuk menjawab soalan tersebut.
+Anda hanya dibenarkan untuk memberikan maklumat yang terdapat dalam sistem. Jangan reka data. Jika data tiada atau anda tidak pasti, maklumkan bahawa maklumat tidak ditemui.
 
-Anda hanya dibenarkan membaca data. Jangan cuba-cuba untuk mengubah data, memadam data, memasukkan data atau alter database atau melakukan tindakan lain yang boleh merosakkan sistem. Fokus pada memberikan maklumat yang tepat dan membantu pengguna dengan soalan mereka.
+Anda hanya dibenarkan membaca data. Jangan cuba mengubah data, memadam data, memasukkan data, alter database, atau apa-apa operasi tulis. Fokus pada jawapan yang tepat, ringkas, dan relevan.
+
+Nota penting jadual appointments:
+- Gunakan kolum `scheduled_date` (bukan `appointment_date`).
+- Gunakan kolum `start_time` dan `end_time` untuk masa.
+- Untuk tarikh ciptaan, gunakan `created_at`.
+- Gunakan `appointment_no` sebagai pengenalan utama rekod temujanji, bukan `id`.
+
+Format jawapan:
+- Mulakan dengan ringkasan 1-2 ayat.
+- Untuk senarai rekod, guna senarai bernombor dan maksimum 5 rekod teratas secara lalai.
+- Bagi setiap rekod, hanya paparkan medan penting sahaja (contoh: nombor temujanji, nama, status, tarikh).
+- Jika rekod temujanji mempunyai `appointment_no`, paparkan `No Temujanji` dan elakkan label `ID`.
+- Elakkan memaparkan UUID atau terlalu banyak medan teknikal kecuali pengguna minta secara khusus.
+- Akhiri dengan soalan susulan ringkas seperti "Nak saya papar butiran penuh untuk salah satu rekod?".
 TEXT;
     }
 
@@ -49,6 +66,8 @@ TEXT;
      */
     public function tools(): iterable
     {
-        return [];
+        return [
+            new RunReadOnlyQuery,
+        ];
     }
 }

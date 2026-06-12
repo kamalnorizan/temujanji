@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ai\Agents\DatabaseAssistant;
 use App\Ai\Agents\TemujanjiChatbot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +15,18 @@ class AppointmentChatbotController extends Controller
     }
 
     public function sendMessage(Request $request) {
+
+        if(!Auth::user()?->isAdmin()) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+
         $validated = $request->validate([
             'message' => 'required|string|max:1000',
         ]);
 
       try {
-            $response = (new TemujanjiChatbot())->forUser(Auth::user())
+            $response = (new DatabaseAssistant())->forUser(Auth::user())
                         ->prompt($validated['message'], provider: 'openai', model : config('ai.models.text'));
 
             return response()->json(['success' => true, 'response' => $response]);
