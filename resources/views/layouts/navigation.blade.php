@@ -57,26 +57,46 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                @canany(['appointments.view.all', 'appointments.view.own'])
                 <li class="nav-item">
                     <a href="{{ route('appointments.index') }}" class="nav-link {{ request()->routeIs('appointments.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar-check"></i>
                         <p>Temujanji</p>
                     </a>
                 </li>
-                @if (Auth::user()->isAdmin())
+                @endcanany
+                @can('appointments.chatbot.access')
+                <li class="nav-item">
+                    <a href="{{ route('appointments.chatbot') }}" class="nav-link {{ request()->routeIs('appointments.chatbot') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-robot"></i>
+                        <p>Chatbot</p>
+                    </a>
+                </li>
+                @endcan
+                @can('appointments.calendar.access')
                 <li class="nav-item">
                     <a href="{{ route('appointments.calendar') }}" class="nav-link {{ request()->routeIs('appointments.calendar') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar-check"></i>
                         <p>Calendar</p>
                     </a>
                 </li>
-                @endif
+                @endcan
+                @can('admin.users.access')
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users-cog"></i>
+                        <p>Pengurusan Pengguna</p>
+                    </a>
+                </li>
+                @endcan
+                @can('profile.manage')
                 <li class="nav-item">
                     <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-gear"></i>
                         <p>Profile</p>
                     </a>
                 </li>
+                @endcan
             </ul>
         </nav>
     </div>

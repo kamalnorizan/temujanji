@@ -26,11 +26,14 @@ class AppointmentController extends Controller
     public function index()
     {
         $user = auth()->user();
-        if ($user->isAdmin()) {
+        if ($user->can('appointments.view.all')) {
             $appointments = Appointment::all();
-        } else {
+        }elseif ($user->can('appointments.view.own')) {
             $appointments = $user->appointments;
+        }else {
+            abort(403, 'Unauthorized');
         }
+
 
         Cache::remember('appointments', now()->addMinutes(10), function () {
             return Appointment::all();
