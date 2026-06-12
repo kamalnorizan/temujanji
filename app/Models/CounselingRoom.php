@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class CounselingRoom extends Model
 {
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'uuid',
+        'name',
+        'location',
+        'is_active',
+    ];
 
     protected $casts = [
         'is_active' => 'boolean',

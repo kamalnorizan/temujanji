@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class AppointmentTimeline extends Model
 {
     public $timestamps = false;
-    protected $guarded = ['id'];
+
+    protected $fillable = [
+        'uuid',
+        'appointment_id',
+        'user_id',
+        'title',
+        'description',
+        'status',
+        'created_at',
+    ];
 
     protected $casts = [
         'created_at' => 'datetime',

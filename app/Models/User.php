@@ -43,6 +43,16 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
+    public function officerAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'officer_id');
+    }
+
+    public function appointmentTimelines()
+    {
+        return $this->hasMany(AppointmentTimeline::class);
+    }
+
     public function isAdmin()
     {
         return $this->role === 'admin' || $this->role === 'pegawai';
